@@ -6,7 +6,7 @@ MP3_URL = 'http://stream-eu1.radioparadise.com:80/mp3-128'
 
 METADATA_URL = 'http://radioparadise.com/ajax_xml_song_info.php?song_id=now'
 
-PREFIX = '/music/InternetRadio'
+PREFIX = '/music/FM4Radio'
 
 ####################################################################################################
 
@@ -29,7 +29,7 @@ def Start():
 
 ####################################################################################################
 
-@handler(PREFIX, 'Internet Radio')
+@handler(PREFIX, 'FM4 Radio')
 def MainMenu():
     oc = ObjectContainer(no_cache = True)
 
