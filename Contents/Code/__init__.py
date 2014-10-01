@@ -1,8 +1,9 @@
 ART      = 'art-default.jpg'
 ICON     = 'icon-default.png'
 
-PLAYLIST_URL_AAC = 'http://www.radioparadise.com/musiclinks/rp_128aac.m3u'
-PLAYLIST_URL_MP3 = 'http://www.radioparadise.com/musiclinks/rp_128.m3u'
+#MP3_URL = 'http://mp3stream1.apasf.apa.at:8000'
+MP3_URL = 'http://stream-eu1.radioparadise.com:80/mp3-128'
+
 METADATA_URL = 'http://radioparadise.com/ajax_xml_song_info.php?song_id=now'
 
 PREFIX = '/music/InternetRadio'
@@ -17,7 +18,7 @@ def Start():
     Plugin.AddViewGroup('InfoList', viewMode = 'InfoList', mediaType = 'items')
 
     # Setup the artwork associated with the plugin
-    ObjectContainer.title1 = 'Internet Radio'
+    ObjectContainer.title1 = 'Radio FM4'
     ObjectContainer.art = R(ART)
     ObjectContainer.view_group = 'List'
 
@@ -32,27 +33,19 @@ def Start():
 def MainMenu():
     oc = ObjectContainer(no_cache = True)
 
-    # Would love to call this periodically to update the channel background art, but not possible
-    # oc.art = HTTP.Request('http://radioparadise.com/readtxt.php').content
-
-    # Fetch XML with metadata and build XML Object
     song_info = XML.ObjectFromURL(METADATA_URL)
 
-    # Fetch AAC and MP3 urls
-    aac_url = HTTP.Request(PLAYLIST_URL_AAC).content.splitlines()[0]
-    mp3_url = HTTP.Request(PLAYLIST_URL_MP3).content.splitlines()[0]
-    
+    # Fetch MP3 urls
     # Add playable TrackObject to menu structure
     oc.add(
         CreateTrackObject(
-            title = song_info.title.text,
-            artist = song_info.artist.text,
-            album = song_info.album.text,
-            rating = float(song_info.rating.text),
-            thumb = song_info.large_cover.text,
-            art = song_info.image.large_url.text,
-            aac_url = aac_url,
-            mp3_url = mp3_url
+	     title = 'FM4 Live',
+             artist = 'FM4',
+             album = '',
+             rating = float(song_info.rating.text),
+             thumb = song_info.large_cover.text,
+             art = song_info.image.large_url.text,
+             mp3_url = MP3_URL
         )
     )
 
@@ -60,7 +53,8 @@ def MainMenu():
 
 ####################################################################################################
 @route(PREFIX + '/CreateTrackObject', rating = float, include_container = bool) 
-def CreateTrackObject(title, artist, album, rating, thumb, art, aac_url, mp3_url, include_container=False):        
+def CreateTrackObject(title, artist, album, rating, thumb, art, mp3_url, include_container=False):        
+
     track_object = TrackObject(
         key = 
             Callback(
@@ -71,7 +65,6 @@ def CreateTrackObject(title, artist, album, rating, thumb, art, aac_url, mp3_url
                 rating = rating,
                 thumb = thumb,
                 art = art,
-                aac_url = aac_url,
                 mp3_url = mp3_url,
                 include_container = True
             ),
@@ -98,20 +91,6 @@ def CreateTrackObject(title, artist, album, rating, thumb, art, aac_url, mp3_url
         )
     )
     
-    track_object.add(
-        MediaObject(
-            container = Container.MP4,
-            audio_codec = AudioCodec.AAC,
-            audio_channels = 2,
-            bitrate = 128,
-            parts = [
-                PartObject(
-                    key = Callback(PlayAAC, url = aac_url)
-                )
-            ]
-        )
-    )
-
     if include_container:
         return ObjectContainer(objects=[track_object])
     else:
@@ -120,11 +99,6 @@ def CreateTrackObject(title, artist, album, rating, thumb, art, aac_url, mp3_url
 #################################################################################################### 
 @route(PREFIX + '/PlayMP3.mp3')
 def PlayMP3(url):
-    return PlayAudio(url)
-    
-#################################################################################################### 
-@route(PREFIX + '/PlayAAC.aac')
-def PlayAAC(url):
     return PlayAudio(url)
     
 #################################################################################################### 
