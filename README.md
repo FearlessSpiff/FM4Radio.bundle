@@ -12,7 +12,7 @@ Thanks a lot to nsgundy! I took his plugin and made some changes.
 
 Installation
 ------------
-1. Change to the Plugin directory. Depending on your system this can be found here [1]. On Linux the Plex Home can be different. See [2] for details.
+1. Change to the Plugin directory. Depending on your system this can be found [here]. On Linux the Plex Home can be different. See [this] for details.
 2. git clone https://github.com/FearlessSpiff/FM4Radio.bundle.git
 
 
@@ -32,5 +32,5 @@ Know Issues
 * In Plex Browser you have to start the stream, stop it and start it again.
 
 
-[1]: https://support.plex.tv/hc/en-us/articles/201106098-How-do-I-find-the-Plug-Ins-folder-
-[2]: https://support.plex.tv/hc/en-us/articles/200250417-Plex-Media-Server-Log-Files
+[here]: https://support.plex.tv/hc/en-us/articles/201106098-How-do-I-find-the-Plug-Ins-folder-
+[this]: https://support.plex.tv/hc/en-us/articles/200250417-Plex-Media-Server-Log-Files
