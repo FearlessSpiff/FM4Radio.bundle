@@ -19,6 +19,7 @@ def Start():
 
     # Setup the artwork associated with the plugin
     ObjectContainer.title1 = 'Radio FM4'
+    ObjectContainer.thumb = R(ICON)
     ObjectContainer.art = R(ART)
     ObjectContainer.view_group = 'List'
 
@@ -43,8 +44,8 @@ def MainMenu():
              artist = 'FM4',
              album = '',
              rating = float(song_info.rating.text),
-             thumb = song_info.large_cover.text,
-             art = song_info.image.large_url.text,
+             thumb = R(ICON), 
+             art = R(ART),
              mp3_url = MP3_URL
         )
     )
