@@ -1,7 +1,7 @@
 FM4Radio.bundle
 ===============
 
-FM4 internet radio channel for Plex
+FM4 (http://fm4.orf.at/) internet radio channel for Plex
 
 Props
 -----
