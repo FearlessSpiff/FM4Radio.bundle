@@ -36,62 +36,59 @@ def MainMenu():
     # Add playable TrackObject to menu structure
     oc.add(
         CreateTrackObject(
-	     title = 'FM4 Live',
-             artist = 'FM4',
-             album = '',
-             rating = 5.0,
-             thumb = R(ICON), 
-             art = R(ART),
-             mp3_url = MP3_URL
+             mp3_url = MP3_URL,
+	         title = 'FM4 Live'
         )
     )
 
     return oc
 
 ####################################################################################################
-@route(PREFIX + '/CreateTrackObject', rating = float, include_container = bool) 
-def CreateTrackObject(title, artist, album, rating, thumb, art, mp3_url, include_container=False):        
+@route(PREFIX + '/CreateTrackObject', include_container = bool)
+def CreateTrackObject(mp3_url, title, include_container = False):
+    items = []
 
-    track_object = TrackObject(
-        key = 
-            Callback(
-                CreateTrackObject,
-                title = title,
-                artist = artist,
-                album = album,
-                rating = rating,
-                thumb = thumb,
-                art = art,
-                mp3_url = mp3_url,
-                include_container = True
-            ),
-        rating_key = title,
-        title = title,
-        artist = artist,
-        album = album,
-        rating = rating,
-        thumb = thumb,
-        art = art
-    )
-    
-    track_object.add(
-        MediaObject(
-            container = Container.MP3,
-            audio_codec = AudioCodec.MP3,
-            audio_channels = 2,
-            bitrate = 128,
-            parts = [
-                PartObject(
-                    key = Callback(PlayMP3, url = mp3_url)
-                )
-            ]
+    if mp3_url:
+        streams = [
+            AudioStreamObject(
+                codec = AudioCodec.MP3,
+                channels = 2
+            )
+        ]
+
+        items.append(
+            MediaObject(
+                container = Container.MP3,
+                audio_codec = AudioCodec.MP3,
+                audio_channels = 2,
+                parts = [
+                    PartObject(
+                        key = Callback(PlayMP3, url = mp3_url),
+                        streams = streams
+                    )
+                ]
+            )
         )
+        
+    to = TrackObject(
+            key = 
+                Callback(
+                    CreateTrackObject,
+                    mp3_url = mp3_url,
+                    title = title,
+                    include_container = True
+                ),
+            rating_key = title,
+            title = title,
+            thumb = R(ICON),
+            art = R(ART),
+            items = items
     )
-    
+   
     if include_container:
-        return ObjectContainer(objects=[track_object])
+        return ObjectContainer(objects = [to])
     else:
-        return track_object
+        return to
         
 #################################################################################################### 
 @route(PREFIX + '/PlayMP3.mp3')
