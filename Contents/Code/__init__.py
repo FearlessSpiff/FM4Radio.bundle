@@ -1,10 +1,8 @@
 ART      = 'art-default.jpg'
 ICON     = 'icon-default.png'
 
-#MP3_URL = 'http://mp3stream1.apasf.apa.at:8000'
-MP3_URL = 'http://stream-eu1.radioparadise.com:80/mp3-128'
-
-METADATA_URL = 'http://radioparadise.com/ajax_xml_song_info.php?song_id=now'
+MP3_URL = 'http://mp3stream1.apasf.apa.at:8000'
+#MP3_URL = 'http://stream-eu1.radioparadise.com:80/mp3-128'
 
 PREFIX = '/music/FM4Radio'
 
@@ -34,8 +32,6 @@ def Start():
 def MainMenu():
     oc = ObjectContainer(no_cache = True)
 
-    song_info = XML.ObjectFromURL(METADATA_URL)
-
     # Fetch MP3 urls
     # Add playable TrackObject to menu structure
     oc.add(
@@ -43,7 +39,7 @@ def MainMenu():
 	     title = 'FM4 Live',
              artist = 'FM4',
              album = '',
-             rating = float(song_info.rating.text),
+             rating = 5.0,
              thumb = R(ICON), 
              art = R(ART),
              mp3_url = MP3_URL

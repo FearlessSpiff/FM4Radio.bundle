@@ -28,7 +28,6 @@ What is not working
 
 Know Issues
 -----------
-* Artwork still from Paradise Radio Plugin
 * In Plex Browser you have to start the stream, stop it and start it again.
 
 
