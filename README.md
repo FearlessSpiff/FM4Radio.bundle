@@ -19,6 +19,7 @@ Installation
 What is working
 ---------------
 * Playing FM4 on Android Plex (iOS untested)
+* It also works wit Android TV
 
 What is not working
 -------------------
